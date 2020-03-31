@@ -3,12 +3,12 @@ import java.util.Arrays;
 public class LintCode14 {
 
     public static void main(String[] args) {
-        int res = binarySearch(new int[] { 4, 5, 9, 9, 12, 13, 14, 15, 15, 18 }, 9);
+        int res = binarySearch(new int[] { 1,4,4,5,7,7,8,9,9,10 }, 9);
         System.out.print(res);
     }
 
     // space complexity explode
-    public static int binarySearch(int[] nums, int target) {
+    public static int binarySearch_0(int[] nums, int target) {
         // write your code here
         if (nums.length == 0) {
             return -1;
@@ -28,6 +28,33 @@ public class LintCode14 {
                 int possibleHigher = binarySearch(Arrays.copyOfRange(nums, m_index + 1, nums.length), target);
                 
                 return possibleHigher == -1 ? -1 : m_index + 1 + possibleHigher;
+            }
+        }
+    }
+
+    public static int binarySearch(int[] nums, int target) {
+        // write your code here
+        return binarySearchInternal(nums, target, 0, nums.length);
+    }
+    
+    public static int binarySearchInternal(int[] nums, int target, int low, int high) {
+        // write your code here
+        if (low == high) {
+            return -1;
+        } else if (low + 1 == high) {
+            return target == nums[low] ? low : -1;
+        } else if (low + 2 == high) {
+            return target == nums[low] ? low : target == nums[low + 1] ? low + 1 : -1;
+        } else {
+            int m_index = (low + high) / 2;
+            int mid = nums[m_index];
+            if (target < mid) {
+                return binarySearchInternal(nums, target, 0, m_index);
+            } else if (target == mid) {
+                int potentialRes = binarySearchInternal(nums, target, low, m_index);
+                return potentialRes == -1 ? m_index : potentialRes;
+            } else {
+                return binarySearchInternal(nums, target, m_index + 1, high);
             }
         }
     }
