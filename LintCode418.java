@@ -1,4 +1,4 @@
-public class Solution {
+public class LintCode418 {
     /**
      * @param n: The integer
      * @return: Roman representation
